@@ -79,6 +79,25 @@ void GRAPHshow(Graph G) {
     }
 }
 
+void GRAPHdestroy(Graph G) {
+    if (G == NULL) return;
+
+    // Liberar cada lista de adyacencia
+    for (vertex v = 0; v < G->V; v++) {
+        link a = G->adj[v];
+        while (a != NULL) {
+            link next = a->next;
+            free(a);
+            a = next;
+        }
+    }
+
+    // Liberar el vector de listas
+    free(G->adj);
+
+    // Liberar la estructura del grafo
+    free(G);
+}
 
 int main(void) {
     Graph G = GRAPHinit(5); 
@@ -91,6 +110,10 @@ int main(void) {
     GRAPHinsertArc(G, 4, 0);
 
     GRAPHshow(G);
+
+    printf("\nLiberando memoria del grafo...\n");
+    GRAPHdestroy(G);
+    printf("Memoria liberada correctamente.\n");
 
     return 0;
 }
