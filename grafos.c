@@ -129,6 +129,16 @@ int GRAPHundir(Graph G) {
     }
     return 1; //Si es no dirigido
 }
+void UGRAPHinsertEdge(Graph G, vertex v, vertex w) {
+    // Evitar bucles y aristas duplicadas
+    for (link a = G->adj[v]; a != NULL; a = a->next)
+        if (a->w == w) return;
+
+    // Insertar arista en ambos sentidos
+    G->adj[v] = NEWnode(w, G->adj[v]);
+    G->adj[w] = NEWnode(v, G->adj[w]);
+    G->A++;
+}
 
 int main(void) {
     Graph G = GRAPHinit(5); 
