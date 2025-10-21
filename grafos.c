@@ -110,6 +110,26 @@ void GRAPHremoveArc(Graph G, int v, int w) {
         curr = curr->next;
     }
 }
+
+int search(Graph G, vertex v, vertex w) { //verifica dentro de cada vertice
+    for (link a = G->adj[v]; a != NULL; a = a->next) {
+        if (a->w == w)
+            return 1;
+    }
+    return 0;
+}
+
+int GRAPHundir(Graph G) {
+    for (vertex v = 0; v < G->V; v++) {
+        for (link a = G->adj[v]; a != NULL; a = a->next) {
+            vertex w = a->w;
+            if (!search(G, w, v))
+                return 0; // No es no dirigido
+        }
+    }
+    return 1; //Si es no dirigido
+}
+
 int main(void) {
     Graph G = GRAPHinit(5); 
 
