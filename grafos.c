@@ -50,3 +50,35 @@ void GRAPHinsertArc( Graph G, vertex v, vertex w) {
         G->adj[v] = NEWnode( w, G->adj[v]);
         G->A++;
 }
+
+int GRAPHoutdeg(Graph G, vertex v) {
+  int count = 0;
+  for (link a = G->adj[v]; a != NULL; a = a->next)
+      count++;
+  return count;
+}
+
+int GRAPHindeg(Graph G, vertex v) {
+  int count = 0;
+  for (vertex u = 0; u < G->V; u++) {
+      for (link a = G->adj[u]; a != NULL; a = a->next) {
+          if (a->w == v)
+              count++;
+      }
+  }
+  return count;
+}
+
+
+int main(void) {
+    Graph G = GRAPHinit(5); 
+
+    GRAPHinsertArc(G, 0, 1);
+    GRAPHinsertArc(G, 0, 2);
+    GRAPHinsertArc(G, 1, 2);
+    GRAPHinsertArc(G, 2, 3);
+    GRAPHinsertArc(G, 3, 4);
+    GRAPHinsertArc(G, 4, 0);
+
+    return 0;
+}
