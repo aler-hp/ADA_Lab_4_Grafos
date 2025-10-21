@@ -155,19 +155,61 @@ int UGRAPHdegrees(Graph G) { //grado maximo
     return maxDegree;
 }
 
+void UGRAPHremoveEdge(Graph G, vertex v, vertex w) {
+    if (G == NULL) return;
+
+    // Eliminar w de la lista de v
+    link prev = NULL, curr = G->adj[v];
+    while (curr != NULL && curr->w != w) {
+        prev = curr;
+        curr = curr->next;
+    }
+    if (curr != NULL) { // encontrado
+        if (prev == NULL)  // estaba al inicio
+            G->adj[v] = curr->next;
+        else
+            prev->next = curr->next;
+        free(curr);
+    }
+
+    // Eliminar v de la lista de w (simétricamente)
+    prev = NULL;
+    curr = G->adj[w];
+    while (curr != NULL && curr->w != v) {
+        prev = curr;
+        curr = curr->next;
+    }
+    if (curr != NULL) {
+        if (prev == NULL)
+            G->adj[w] = curr->next;
+        else
+            prev->next = curr->next;
+        free(curr);
+    }
+
+    // Si se eliminaron ambas, reducir el contador de aristas
+    G->A--;
+}
 
 int main(void) {
-    Graph G = GRAPHinit(5); 
+    Graph G = GRAPHinit(5);
 
-    GRAPHinsertArc(G, 0, 1);
-    GRAPHinsertArc(G, 0, 3);
-    GRAPHinsertArc(G, 1, 4);
-    GRAPHinsertArc(G, 2, 3);
-    GRAPHinsertArc(G, 3, 4);
-    GRAPHinsertArc(G, 4, 0);
+    UGRAPHinsertEdge(G, 0, 1);
+    UGRAPHinsertEdge(G, 0, 3);
+    UGRAPHinsertEdge(G, 1, 4);
+    UGRAPHinsertEdge(G, 2, 3);
+    UGRAPHinsertEdge(G, 3, 4);
+    UGRAPHinsertEdge(G, 4, 0);
 
-    GRAPHremoveArc(G, 3, 4);
+    printf("=== Grafo original ===\n");
+    GRAPHshow(G);
 
+    printf("\nEliminando arista (0,3)...\n");
+    UGRAPHremoveEdge(G, 0, 3);
+    GRAPHshow(G);
+
+    printf("\nEliminando arista (4,1)...\n");
+    UGRAPHremoveEdge(G, 4, 1);
     GRAPHshow(G);
 
     printf("\nLiberando memoria del grafo...\n");
