@@ -140,6 +140,22 @@ void UGRAPHinsertEdge(Graph G, vertex v, vertex w) {
     G->A++;
 }
 
+int UGRAPHdegrees(Graph G) { //grado maximo
+    int maxDegree = 0;
+
+    for (vertex v = 0; v < G->V; v++) {
+        int degree = 0;
+        for (link a = G->adj[v]; a != NULL; a = a->next) //contar adyacentes
+            degree++;
+
+        if (degree > maxDegree)
+            maxDegree = degree; 
+    }
+
+    return maxDegree;
+}
+
+
 int main(void) {
     Graph G = GRAPHinit(5); 
 
